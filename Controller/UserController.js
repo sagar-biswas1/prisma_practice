@@ -28,7 +28,25 @@ export const createUser = async (req, res, next) => {
 };
 
 export const fetchUsers = async (req, res, next) => {
-  const users = await prisma.user.findMany({});
+  const users = await prisma.user.findMany({
+    include:{
+      // post: true,
+      post:{
+        select:{
+          title: true,
+          comment_count:true
+        }
+      }
+    },
+    // select:{
+      
+    //   _count:{
+    //     select:{
+    //       post: true
+    //     }
+    //   }
+    // }
+  });
   return res.json({ status: 200, data: users });
 };
 
